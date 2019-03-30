@@ -110,8 +110,7 @@ int peripherals_init (void)
  * */
 void spi_peripheral_init()
 {
-    //TODO
-    //NOTE - now done in openspi()
+    openspi();
 }
 
 /****************************************************************************//**
@@ -217,7 +216,7 @@ void port_wakeup_dw1000_fast(void)
  * */
 void port_set_dw1000_slowrate(void)
 {
-    //TODO
+    set_spi_speed_slow();
 }
 
 /* @fn      port_set_dw1000_fastrate
@@ -226,6 +225,7 @@ void port_set_dw1000_slowrate(void)
 void port_set_dw1000_fastrate(void)
 {
     //TODO
+    set_spi_speed_fast();
 }
 
 

@@ -24,7 +24,8 @@
 #include <spi.h>
 
 struct device *spi;
-struct spi_config spi_cfg;
+struct spi_config *spi_cfg;
+struct spi_config spi_cfgs[4]={0};
 
 uint8_t tx_buf[255];
 uint8_t rx_buf[255];
@@ -47,13 +48,15 @@ struct spi_buf_set rx;
  */
 int openspi()
 {
+    spi_cfg = &spi_cfgs[0];
+
 	spi = device_get_binding(DT_SPI_1_NAME);
 	if (!spi) {
 		printk("Could not find SPI driver\n");
 		return -1;
 	}
-	spi_cfg.operation = SPI_WORD_SET(8);
-	spi_cfg.frequency = 256000;
+	spi_cfg->operation = SPI_WORD_SET(8);
+	spi_cfg->frequency = 2000000;
 
 	memset(&tx_buf[0], 0, 255);
 	memset(&rx_buf[0], 0, 255);
@@ -65,6 +68,26 @@ int openspi()
 	rx.count = 1;
     return 0;
 } // end openspi()
+
+int set_spi_speed_slow()
+{
+	spi_cfg = &spi_cfgs[0];
+	spi_cfg->operation = SPI_WORD_SET(8);
+	spi_cfg->frequency = 2000000;
+
+	memset(&tx_buf[0], 0, 255);
+	memset(&rx_buf[0], 0, 255);
+}
+
+int set_spi_speed_fast()
+{
+	spi_cfg = &spi_cfgs[1];
+	spi_cfg->operation = SPI_WORD_SET(8);
+	spi_cfg->frequency = 8000000;
+
+	memset(&tx_buf[0], 0, 255);
+	memset(&rx_buf[0], 0, 255);
+}
 
 /*! ------------------------------------------------------------------------------------------------------------------
  * Function: closespi()
@@ -99,7 +122,7 @@ int writetospi(uint16 headerLength,
     bufs[0].len = headerLength+bodyLength;
     bufs[1].len = headerLength+bodyLength;
 
-    spi_transceive(spi, &spi_cfg, &tx, &rx);
+    spi_transceive(spi, spi_cfg, &tx, &rx);
     decamutexoff(stat);
 
     return 0;
@@ -127,7 +150,7 @@ int readfromspi(uint16 headerLength,
 
     bufs[0].len = headerLength+readlength;
     bufs[1].len = headerLength+readlength;
-    spi_transceive(spi, &spi_cfg, &tx, &rx);
+    spi_transceive(spi, spi_cfg, &tx, &rx);
 
 	memcpy(readBuffer, rx_buf+headerLength, readlength);
 
