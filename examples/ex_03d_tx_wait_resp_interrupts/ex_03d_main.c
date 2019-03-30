@@ -77,6 +77,12 @@ static void rx_to_cb(const dwt_cb_data_t *cb_data);
 static void rx_err_cb(const dwt_cb_data_t *cb_data);
 static void tx_conf_cb(const dwt_cb_data_t *cb_data);
 
+static volatile uint8_t process_isr = 0;
+void dwt_isr_helper(void)
+{
+    process_isr = 1;
+}
+
 /**
  * Application entry point.
  */
@@ -86,7 +92,8 @@ int dw_main(void)
     printk(APP_NAME);
 
     /* Install DW1000 IRQ handler. */
-    port_set_deca_isr(dwt_isr);
+    /* Note: dwt_isr cannot be called in actual ISR because zephyr doesn't like APIs like spi being used during the ISR */
+    port_set_deca_isr(dwt_isr_helper);
 
     /* Configure DW1000 SPI */
     openspi();
@@ -132,10 +139,35 @@ int dw_main(void)
         /* Start transmission, indicating that a response is expected so that reception is enabled immediately after the frame is sent. */
         dwt_starttx(DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED);
 
+        while(process_isr != 1)
+        {
+            //wait for interrupt because of TX event to happen
+        }
+
+        /* Run dwt_isr */
+        /* Note: this is out of the real ISR on purpose because zephyr doesn't like APIs like spi being used during the ISR */
+        dwt_isr();
+        
+        /* reset variable to 0 */
+        process_isr = 0;
+
+        while(process_isr != 1)
+        {
+            //wait for interrupt because of RX event to happen
+        }
+
+        /* Run dwt_isr */
+        /* Note: this is out of the real ISR on purpose because zephyr doesn't like APIs like spi being used during the ISR */
+        dwt_isr();
+        
+        /* reset variable to 0 */
+        process_isr = 0;
+
         /* Wait for any RX event. */
         while (tx_delay_ms == -1)
         { };
 
+        printk("Test succeeded \n");
         /* Execute the defined delay before next transmission. */
         if (tx_delay_ms > 0)
         {
