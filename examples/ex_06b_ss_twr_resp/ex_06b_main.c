@@ -26,7 +26,7 @@
 #include "port.h"
 
 /* Example application name and version to display on console. */
-#define APP_NAME "SS TWR RESP v1.3"
+#define APP_NAME "SS TWR RESP v1.3\n"
 
 /* Default communication configuration. We use here EVK1000's mode 4. See NOTE 1 below. */
 static dwt_config_t config = {
@@ -72,7 +72,7 @@ static uint32 status_reg = 0;
 #define UUS_TO_DWT_TIME 65536
 
 /* Delay between frames, in UWB microseconds. See NOTE 1 below. */
-#define POLL_RX_TO_RESP_TX_DLY_UUS 330
+#define POLL_RX_TO_RESP_TX_DLY_UUS 630
 
 /* Timestamps of frames transmission/reception.
  * As they are 40-bit wide, we need to define a 64-bit int type to handle them. */

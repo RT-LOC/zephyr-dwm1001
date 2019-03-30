@@ -27,7 +27,7 @@
 #include "port.h"
 
 /* Example application name and version to display on console. */
-#define APP_NAME "SS TWR INIT v1.4"
+#define APP_NAME "SS TWR INIT v1.4\n"
 
 /* Inter-ranging delay period, in milliseconds. */
 #define RNG_DELAY_MS 1000
@@ -78,7 +78,7 @@ static uint32 status_reg = 0;
 /* Delay between frames, in UWB microseconds. See NOTE 1 below. */
 #define POLL_TX_TO_RESP_RX_DLY_UUS 140
 /* Receive response timeout. See NOTE 5 below. */
-#define RESP_RX_TIMEOUT_UUS 210
+#define RESP_RX_TIMEOUT_UUS 510
 
 /* Speed of light in air, in metres per second. */
 #define SPEED_OF_LIGHT 299702547
@@ -200,12 +200,14 @@ int dw_main(void)
                 distance = tof * SPEED_OF_LIGHT;
 
                 /* Display computed distance on console. */
-                sprintf(dist_str, "DIST: %3.2f m", distance);
+                sprintf(dist_str, "DIST: %3.2f m\n", distance);
                 printk(dist_str);
             }
         }
         else
         {
+            printk("err\n");
+            
             /* Clear RX error/timeout events in the DW1000 status register. */
             dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_ALL_RX_TO | SYS_STATUS_ALL_RX_ERR);
 
