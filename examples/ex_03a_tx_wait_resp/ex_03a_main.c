@@ -57,7 +57,7 @@ static uint8 tx_msg[] = {0xC5, 0, 'D', 'E', 'C', 'A', 'W', 'A', 'V', 'E', 0x43, 
 #define TX_TO_RX_DELAY_UUS 60
 
 /* Receive response timeout, expressed in UWB microseconds. See NOTE 3 below. */
-#define RX_RESP_TO_UUS 5000
+#define RX_RESP_TO_UUS 8000
 
 /* Buffer to store received frame. See NOTE 4 below. */
 #define FRAME_LEN_MAX 127
@@ -104,7 +104,7 @@ int dw_main(void)
 
     /* Configure DW1000 LEDs */
     dwt_setleds(1);
-    
+
     /* Loop forever sending and receiving frames periodically. */
     while (1)
     {
@@ -149,6 +149,7 @@ int dw_main(void)
         {
             /* Clear RX error/timeout events in the DW1000 status register. */
             dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_ALL_RX_TO | SYS_STATUS_ALL_RX_ERR);
+            printk("err\n");
         }
 
         /* Execute a delay between transmissions. */
