@@ -65,7 +65,9 @@ int dw_main(void)
     reset_DW1000(); /* Target specific drive of RSTn line into DW1000 low for a period. */
     port_set_dw1000_slowrate();
     
+    /* Configure DW1000 SPI */
     openspi();
+
     if (dwt_initialise(DWT_LOADNONE) == DWT_ERROR)
     {
         printk("INIT FAILED");
@@ -77,6 +79,7 @@ int dw_main(void)
     /* Configure DW1000. See NOTE 3 below. */
     dwt_configure(&config);
 
+    /* Configure DW1000 LEDs */
     dwt_setleds(1);
 
     /* Loop forever sending frames periodically. */
