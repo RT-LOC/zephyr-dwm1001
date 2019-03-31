@@ -1,22 +1,19 @@
 # DWM1001 & Zephyr
 This project contains examples that show how to use the DWM1001 module together with Zephyr RTOS.
-The examples that decawave distributes along with their driver are adapted to work on the DWM1001-board.
+The examples that Decawave distributes along with their driver are adapted to work on the DWM1001-board.
 
 ## Getting Started
 
 ### What's required?
+#### OS
+Linux, Mac or Windows!
+
 #### Hardware
 You will need at least one `DWM1001-dev` board and a `micro-USB` cable.
 
 #### Software
-Make sure you have `CMake` and `ninja` installed on your PC. Some installation guidelines are added below.
+Make sure you have `CMake` (min 3.13.1) and `ninja` installed on your PC. If not, follow the instructions at https://docs.zephyrproject.org/latest/getting_started/index.html#set-up-a-development-system.
 In order to flash the boards, you will need `nrfjprog`. This program is added to this repository so that you don't need to install it explicitely (but you can of course).
-
-#### CMake
-TODO
-
-#### Ninja
-TODO
 
 ### Zephyr 
 First you need to make sure you have downloaded & installed Zephyr with the DWM1001 BSP.
@@ -37,9 +34,9 @@ git checkout DWM1001
 ```
 
 Now source the script zephyr-env.sh to make sure all the environment variables are set correctly.
-```
-source zephyr-env.sh
-```
+
+Linux: `source zephyr-env.sh`
+
 
 ### Build your first application
 Make sure you have downloaded or cloned this repository to your local computer:
