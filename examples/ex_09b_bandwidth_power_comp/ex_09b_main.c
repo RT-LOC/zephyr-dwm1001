@@ -40,18 +40,18 @@ struct ref_values {
     uint16 count;
 };
 
-/* Default communication configuration. See NOTE 1 below. */
-static dwt_config_t config = {
+/* Default communication configuration. */
+static dwt_config_t config = {                                                                        
     5,               /* Channel number. */
-    DWT_PRF_64M,     /* Pulse repetition frequency. */
-    DWT_PLEN_128,    /* Preamble length. Used in TX only. */
-    DWT_PAC8,        /* Preamble acquisition chunk size. Used in RX only. */
-    9,               /* TX preamble code. Used in TX only. */
+    DWT_PRF_64M,     /* Pulse repetition frequency. */                                                
+    DWT_PLEN_128,    /* Preamble length. Used in TX only. */                                           
+    DWT_PAC8,        /* Preamble acquisition chunk size. Used in RX only. */                           
+    9,               /* TX preamble code. Used in TX only. */                                         
     9,               /* RX preamble code. Used in RX only. */
-    0,               /* 0 to use standard SFD, 1 to use non-standard SFD. */
+    1,               /* 0 to use standard SFD, 1 to use non-standard SFD. */                          
     DWT_BR_6M8,      /* Data rate. */
-    DWT_PHRMODE_STD, /* PHY header mode. */
-    (129 + 8 - 8)   /* SFD timeout (preamble length + 1 + SFD length - PAC size). Used in RX only. */
+    DWT_PHRMODE_EXT, /* PHY header mode. */
+    (129)            /* SFD timeout (preamble length + 1 + SFD length - PAC size). Used in RX only. */           
 };
 
 /* The frame sent in this example is an 802.15.4e standard blink. It is a 12-byte frame composed of the following fields:

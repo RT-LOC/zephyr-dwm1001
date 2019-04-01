@@ -20,17 +20,17 @@
 /* Example application name and version to display on console. */
 #define APP_NAME "RX PSR64 v1.2"
 
-/* Default communication configuration. We use here a configuration suitable for 64 symbols long preambles. See NOTE 1 below. */
-static dwt_config_t config = {
-    2,               /* Channel number. */
-    DWT_PRF_64M,     /* Pulse repetition frequency. */
-    DWT_PLEN_64,     /* Preamble length. Used in TX only. */
-    DWT_PAC8,        /* Preamble acquisition chunk size. Used in RX only. */
-    9,               /* TX preamble code. Used in TX only. */
+/* Default communication configuration. */
+static dwt_config_t config = {                                                                        
+    5,               /* Channel number. */
+    DWT_PRF_64M,     /* Pulse repetition frequency. */                                                
+    DWT_PLEN_64,    /* Preamble length. Used in TX only. */                                           
+    DWT_PAC8,        /* Preamble acquisition chunk size. Used in RX only. */                           
+    9,               /* TX preamble code. Used in TX only. */                                         
     9,               /* RX preamble code. Used in RX only. */
-    1,               /* 0 to use standard SFD, 1 to use non-standard SFD. */
+    1,               /* 0 to use standard SFD, 1 to use non-standard SFD. */                          
     DWT_BR_6M8,      /* Data rate. */
-    DWT_PHRMODE_STD, /* PHY header mode. */
+    DWT_PHRMODE_EXT, /* PHY header mode. */
     (64 + 1 + 8 - 8) /* SFD timeout (preamble length + 1 + SFD length - PAC size). Used in RX only. */
 };
 

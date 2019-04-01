@@ -44,18 +44,18 @@
 /* Example application name and version to display on console. */
 #define APP_NAME "LPLISTEN RX v1.1"
 
-/* Default communication configuration. See NOTE 1 below. */
-static dwt_config_t config = {
-    2,                   /* Channel number. */
-    DWT_PRF_16M,         /* Pulse repetition frequency. */
-    DWT_PLEN_1024,       /* Preamble length. Used in TX only. */
-    DWT_PAC16,           /* Preamble acquisition chunk size. Used in RX only. */
-    3,                   /* TX preamble code. Used in TX only. */
-    3,                   /* RX preamble code. Used in RX only. */
-    0,                   /* 0 to use standard SFD, 1 to use non-standard SFD. */
-    DWT_BR_6M8,          /* Data rate. */
-    DWT_PHRMODE_STD,     /* PHY header mode. */
-    (1024 + 1 + 8 - 16)  /* SFD timeout (preamble length + 1 + SFD length - PAC size). Used in RX only. */
+/* Default communication configuration. */
+static dwt_config_t config = {                                                                        
+    5,               /* Channel number. */
+    DWT_PRF_64M,     /* Pulse repetition frequency. */                                                
+    DWT_PLEN_128,    /* Preamble length. Used in TX only. */                                           
+    DWT_PAC8,        /* Preamble acquisition chunk size. Used in RX only. */                           
+    9,               /* TX preamble code. Used in TX only. */                                         
+    9,               /* RX preamble code. Used in RX only. */
+    1,               /* 0 to use standard SFD, 1 to use non-standard SFD. */                          
+    DWT_BR_6M8,      /* Data rate. */
+    DWT_PHRMODE_EXT, /* PHY header mode. */
+    (129)            /* SFD timeout (preamble length + 1 + SFD length - PAC size). Used in RX only. */           
 };
 
 /* Crystal frequency, in hertz. */
