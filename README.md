@@ -2,6 +2,8 @@
 This project contains examples that show how to use the DWM1001 module together with Zephyr RTOS.
 The examples that Decawave distributes along with their driver are adapted to work on the DWM1001-board.
 
+Note upfront: this readme isn't finished yet. It will be improved & extended the following days/weeks.
+
 ## Getting Started
 
 ## What's required?
