@@ -4,21 +4,33 @@ The examples that Decawave distributes along with their driver are adapted to wo
 
 ## Getting Started
 
-### What's required?
-#### OS
+## What's required?
+### OS
 Linux, Mac or Windows!
 
-#### Hardware
+### Hardware
 You will need at least one `DWM1001-dev` board and a `micro-USB` cable.
 
-#### Software
-Make sure you have `CMake` (min 3.13.1) and `ninja` installed on your PC. If not, follow the instructions at https://docs.zephyrproject.org/latest/getting_started/index.html#set-up-a-development-system.
-In order to flash the boards, you will need `nrfjprog`. This program is added to this repository so that you don't need to install it explicitely (but you can of course).
+### Software
+There's quite a lot to install if you haven't already. First we're going to build the firmware, after which we can flash it on the board.
+
+#### Building
+Make sure you have `CMake` (min 3.13.1) and `ninja` installed on your PC. If you don't have these tools yet, follow the instructions from zephyr [here](https://docs.zephyrproject.org/latest/getting_started/index.html#set-up-a-development-system).
+Note that you don't really need 'west'.
+
+Next up is the `toolchain`. Instructions can be found here [here](https://docs.zephyrproject.org/latest/getting_started/index.html#set-up-a-toolchain). Best is to install GNU ARM Embedded as described. Pay attention not to install the toolchain into a path with spaces, and don't install version 8-2018-q4-major (both as described in the warnings). After configuring the environment variables you're almost good to go.
+
+#### Flashing
+In order to flash the boards, you will need `nrfjprog`. This tool is also available on all 3 main OS's. You can find it [here](https://www.nordicsemi.com/Software-and-Tools/Development-Tools/nRF5-Command-Line-Tools). After installing, make sure that your system PATH contains the path to where it is installed.
+Typically for Windows this is:
+```
+C:\Program Files\Nordic Semiconductor\nrf5x\bin
+```
 
 ### Zephyr 
-First you need to make sure you have downloaded & installed Zephyr with the DWM1001 BSP.
+Now that the development system is set up, we just need Zephyr and the examples itself. They are spread over two github repositories. You can start by downloading the Zephyr distribution that contains the DWM1001 BSP:
 
-Clone the zephyr distribution: 
+Download or clone the zephyr distribution: 
 ```
 git clone https://github.com/RT-LOC/zephyr
 ```
@@ -28,18 +40,11 @@ Now change your active directory:
 cd zephyr
 ```
 
-The BSP is in the branch `origin/DWM1001`. We need to checkout this branch in order to be able to use the BSP.
-```
-git checkout DWM1001
-```
-
-Now source the script zephyr-env.sh to make sure all the environment variables are set correctly.
-
-Linux: `source zephyr-env.sh`
-
+Now source the script zephyr-env.sh (linux & macOS) or run zephyr-env.cmd to make sure all the environment variables are set correctly.
 
 ### Build your first application
-Make sure you have downloaded or cloned this repository to your local computer:
+The second github repository is the one that contains the specific DWM1001 example code.
+Download or clone this repository to your local computer:
 ```
 git clone https://github.com/RT-LOC/zephyr-dwm1001
 ```
@@ -47,37 +52,42 @@ git clone https://github.com/RT-LOC/zephyr-dwm1001
 Now that we have installed zephyr, we can start building the real examples.
 We will proceed here with building the first simple example. Note that the procedure to follow for all the other examples is identical.
 
+First let's create a build directory and jump to it.
 ```
 cd examples/ex_01a_simple_tx
+```
+```
 mkdir build
+```
+```
 cd build
 ```
-
+We configure the build system with Ninja as follows:
 ```
 cmake -GNinja -DBOARD=nrf52_dwm1001 ..
 ```
-
+And we actually build or firmware with ninja:
 ```
 ninja
 ```
 
 
 ### Flash
-Now let's flash the binary file that we just built onto the board. 
-Note that you should change the path to `nrfjprog` according to the operating system you're using. This is the example for linux.
+Now let's flash the binary file that we just built onto the board. Make sure you have nrfjprog properly installed and that it is in the system PATH.
+
 #### Erase the flash:
 ```
- ../../tools/windows/nrfjprog/nrfjprog --family nrf52 --eraseall
+nrfjprog --family nrf52 --eraseall
 ```
 
 #### Program the binary file on the board:
 ```
-../../tools/windows/nrfjprog/nrfjprog --family nrf52 --program build/zephyr/zephyr.hex
+nrfjprog --family nrf52 --program zephyr/zephyr.hex
 ```
 
 #### Perform a soft reset of the MCU:
 ```
-../../tools/windows/nrfjprog/nrfjprog --family nrf52 --reset
+nrfjprog --family nrf52 --reset
 ```
 
 ## Examples
@@ -119,5 +129,10 @@ The following examples are provided:
     - ex_09b_bandwidth_power_comp
  - Example 10 - GPIO
     - ex_10a_gpio
+ - Example 11 - IO
+    - ex_11a_button
+    - ex_11b_leds (coming)
+ - Example 12 - BLE (coming)
+    - ex_12a_ble 
 
 ## What's next?
