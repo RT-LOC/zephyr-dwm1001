@@ -30,11 +30,6 @@ Now change your active directory:
 cd zephyr
 ```
 
-The BSP is in the branch `origin/DWM1001`. We need to checkout this branch in order to be able to use the BSP.
-```
-git checkout DWM1001
-```
-
 Now source the script zephyr-env.sh to make sure all the environment variables are set correctly.
 
 Linux: `source zephyr-env.sh`
