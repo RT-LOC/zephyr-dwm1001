@@ -1,6 +1,5 @@
 # DWM1001 & Zephyr
-This project contains examples that show how to use the DWM1001 module together with Zephyr RTOS.
-The examples that Decawave distributes along with their driver are adapted to work on the DWM1001-board.
+This project contains examples on how to use the Ultra Wideband (UWB) and Bluetooth hardware based DWM1001 module together with Zephyr RTOS. It's an adaptation of Decawave's examples distributed along with their driver.
 
 Note upfront: this readme isn't finished yet. It will be improved & extended the following days/weeks.
 
@@ -73,7 +72,6 @@ And we actually build or firmware with ninja:
 ninja
 ```
 
-
 ### Flash
 Now let's flash the binary file that we just built onto the board. Make sure you have nrfjprog properly installed and that it is in the system PATH.
 
@@ -138,3 +136,5 @@ The following examples are provided:
     - ex_12a_ble 
 
 ## What's next?
+* Examples completion
+* (Mobile) readout app
