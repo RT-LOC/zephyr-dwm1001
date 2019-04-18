@@ -11,7 +11,11 @@
 #include <gpio.h>
 
 /* Defines */
-#define APP_NAME "BUTTON        v1.0\n"
+#define APP_HEADER "\nDWM1001 & Zephyr\n"
+#define APP_NAME "Example 11a - BUTTON\n"
+#define APP_VERSION "Version - 1.3\n"
+#define APP_LINE "=================\n"
+
 #define PIN_BUTTON	2
 
 static struct gpio_callback gpio_cb;
@@ -29,8 +33,11 @@ void button_pressed(struct device *gpiob, struct gpio_callback *cb, u32_t pins)
 int dw_main(void)
 {
     /* Display application name on console. */
+    printk(APP_HEADER);
     printk(APP_NAME);
-
+    printk(APP_VERSION);
+    printk(APP_LINE);
+	
 	/* Get GPIO device binding */
 	gpiob = device_get_binding(SW0_GPIO_CONTROLLER);
 	if (!gpiob) {
