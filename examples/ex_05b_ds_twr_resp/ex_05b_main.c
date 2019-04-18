@@ -18,7 +18,7 @@
  *
  * @author Decawave
  */
-#if 1//def 1//EX_05B_DEF
+
 #include <stdio.h>
 #include <string.h>
 
@@ -28,7 +28,10 @@
 #include "port.h"
 
 /* Example application name and version to display on console. */
-#define APP_NAME "DS TWR RESP v1.3"
+#define APP_HEADER "\nDWM1001 & Zephyr\n"
+#define APP_NAME "Example 5b - DS TWR RESP\n"
+#define APP_VERSION "Version - 1.3\n"
+#define APP_LINE "=================\n"
 
 /* Default communication configuration. */
 static dwt_config_t config = {                                                                        
@@ -62,7 +65,7 @@ static uint8 rx_final_msg[] = {0x41, 0x88, 0, 0xCA, 0xDE, 'W', 'A', 'V', 'E', 0x
 #define FINAL_MSG_TS_LEN 4
 /* Frame sequence number, incremented after each transmission. */
 static uint8 frame_seq_nb = 0;
-
+static uint8 frame_seq_nb_rx = 0;
 /* Buffer to store received messages.
  * Its size is adjusted to longest frame that this example code is supposed to handle. */
 #define RX_BUF_LEN 24
@@ -78,11 +81,11 @@ static uint32 status_reg = 0;
 /* Delay between frames, in UWB microseconds. See NOTE 4 below. */
 /* This is the delay from Frame RX timestamp to TX reply timestamp used for calculating/setting the DW1000's delayed TX function. This includes the
  * frame length of approximately 2.46 ms with above configuration. */
-#define POLL_RX_TO_RESP_TX_DLY_UUS 3000
+#define POLL_RX_TO_RESP_TX_DLY_UUS 6000
 /* This is the delay from the end of the frame transmission to the enable of the receiver, as programmed for the DW1000's wait for response feature. */
 #define RESP_TX_TO_FINAL_RX_DLY_UUS 500
 /* Receive final timeout. See NOTE 5 below. */
-#define FINAL_RX_TIMEOUT_UUS 4500
+#define FINAL_RX_TIMEOUT_UUS 10000
 /* Preamble timeout, in multiple of PAC size. See NOTE 6 below. */
 #define PRE_TIMEOUT 30
 
@@ -121,7 +124,10 @@ static void final_msg_get_ts(const uint8 *ts_field, uint32 *ts);
 int dw_main(void)
 {
     /* Display application name on console. */
+    printk(APP_HEADER);
     printk(APP_NAME);
+    printk(APP_VERSION);
+    printk(APP_LINE);
 
     /* Configure DW1000 SPI */
     openspi();
@@ -147,7 +153,8 @@ int dw_main(void)
     dwt_settxantennadelay(TX_ANT_DLY);
 
     /* Set preamble timeout for expected frames. See NOTE 6 below. */
-    dwt_setpreambledetecttimeout(PRE_TIMEOUT);
+    //NOTE: no use of preamble tmo's yet
+    // dwt_setpreambledetecttimeout(PRE_TIMEOUT);
 
     /* Configure DW1000 LEDs */
     dwt_setleds(1);
@@ -190,6 +197,9 @@ int dw_main(void)
                 /* Retrieve poll reception timestamp. */
                 poll_rx_ts = get_rx_timestamp_u64();
 
+                /* Retreive frame sequence number */
+                memcpy(&frame_seq_nb_rx, &rx_buffer[2], 1);
+
                 /* Set send time for response. See NOTE 9 below. */
                 resp_tx_time = (poll_rx_ts + (POLL_RX_TO_RESP_TX_DLY_UUS * UUS_TO_DWT_TIME)) >> 8;
                 dwt_setdelayedtrxtime(resp_tx_time);
@@ -207,6 +217,7 @@ int dw_main(void)
                 /* If dwt_starttx() returns an error, abandon this ranging exchange and proceed to the next one. See NOTE 11 below. */
                 if (ret == DWT_ERROR)
                 {
+                    printk("err - tx_error1\n");
                     continue;
                 }
 
@@ -262,12 +273,13 @@ int dw_main(void)
                         distance = tof * SPEED_OF_LIGHT;
 
                         /* Display computed distance on console. */
-                        sprintf(dist_str, "DIST: %3.2f m\n", distance);
+                        sprintf(dist_str, "dist (%u): %3.2f m\n", frame_seq_nb_rx, distance);
                         printk(dist_str);
                     }
                 }
                 else
                 {
+                    printk("err - rx2 failed\n");
                     /* Clear RX error/timeout events in the DW1000 status register. */
                     dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_ALL_RX_TO | SYS_STATUS_ALL_RX_ERR);
 
@@ -278,7 +290,7 @@ int dw_main(void)
         }
         else
         {
-            // printk("f1\n"); 
+            // printk("err 1\n"); 
             /* Clear RX error/timeout events in the DW1000 status register. */
             dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_ALL_RX_TO | SYS_STATUS_ALL_RX_ERR);
 
@@ -356,7 +368,6 @@ static void final_msg_get_ts(const uint8 *ts_field, uint32 *ts)
         *ts += ts_field[i] << (i * 8);
     }
 }
-#endif
 /*****************************************************************************************************************************************************
  * NOTES:
  *

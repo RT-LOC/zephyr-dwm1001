@@ -18,7 +18,6 @@
  *
  * @author Decawave
  */
-#ifdef EX_05A_DEF
 #include <string.h>
 
 #include "deca_device_api.h"
@@ -27,7 +26,10 @@
 #include "port.h"
 
 /* Example application name and version to display on console. */
-#define APP_NAME "DS TWR INIT v1.3"
+#define APP_HEADER "\nDWM1001 & Zephyr\n"
+#define APP_NAME "Example 5a - DS TWR INIT\n"
+#define APP_VERSION "Version - 1.3\n"
+#define APP_LINE "=================\n"
 
 /* Inter-ranging delay period, in milliseconds. */
 #define RNG_DELAY_MS 1000
@@ -84,9 +86,9 @@ static uint32 status_reg = 0;
  * frame length of approximately 2.66 ms with above configuration. */
 #define RESP_RX_TO_FINAL_TX_DLY_UUS 4000
 /* Receive response timeout. See NOTE 5 below. */
-#define RESP_RX_TIMEOUT_UUS 4000
+#define RESP_RX_TIMEOUT_UUS 6000
 /* Preamble timeout, in multiple of PAC size. See NOTE 6 below. */
-// #define PRE_TIMEOUT 40
+#define PRE_TIMEOUT 40
 
 /* Time-stamps of frames transmission/reception, expressed in device time units.
  * As they are 40-bit wide, we need to define a 64-bit int type to handle them. */
@@ -112,7 +114,10 @@ static void final_msg_set_ts(uint8 *ts_field, uint64 ts);
 int dw_main(void)
 {
     /* Display application name on console. */
+    printk(APP_HEADER);
     printk(APP_NAME);
+    printk(APP_VERSION);
+    printk(APP_LINE);
 
     /* Configure DW1000 SPI */
     openspi();
@@ -124,7 +129,7 @@ int dw_main(void)
     port_set_dw1000_slowrate();
     if (dwt_initialise(DWT_LOADUCODE) == DWT_ERROR)
     {
-        printk("INIT FAILED");
+        printk("err - init failed");
         while (1)
         { };
     }
@@ -141,6 +146,8 @@ int dw_main(void)
      * As this example only handles one incoming frame with always the same delay and timeout, those values can be set here once for all. */
     dwt_setrxaftertxdelay(POLL_TX_TO_RESP_RX_DLY_UUS);
     dwt_setrxtimeout(RESP_RX_TIMEOUT_UUS);
+
+    //NOTE: no use of preamble tmo's yet
     // dwt_setpreambledetecttimeout(PRE_TIMEOUT);
 
     /* Configure DW1000 LEDs */
@@ -167,7 +174,6 @@ int dw_main(void)
 
         if (status_reg & SYS_STATUS_RXFCG)
         {
-            printk("RX\n");
             uint32 frame_len;
 
             /* Clear good RX frame event and TX frame sent in the DW1000 status register. */
@@ -213,7 +219,6 @@ int dw_main(void)
                 /* If dwt_starttx() returns an error, abandon this ranging exchange and proceed to the next one. See NOTE 12 below. */
                 if (ret == DWT_SUCCESS)
                 {
-                    printk("TX\n");
                     /* Poll DW1000 until TX frame sent event set. See NOTE 9 below. */
                     while (!(dwt_read32bitreg(SYS_STATUS_ID) & SYS_STATUS_TXFRS))
                     { };
@@ -221,18 +226,20 @@ int dw_main(void)
                     /* Clear TXFRS event. */
                     dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_TXFRS);
 
+                    printk("success (%u)\n", frame_seq_nb);
+
                     /* Increment frame sequence number after transmission of the final message (modulo 256). */
                     frame_seq_nb++;
                 }else
                 {
-                    printk("txfail\n");
+                    printk("err - tx failed\n");
                 }
                 
             }
         }
         else
         {
-            printk("tmo\n");
+            printk("err - tmo1 (rx failed)\n");
             /* Clear RX error/timeout events in the DW1000 status register. */
             dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_ALL_RX_TO | SYS_STATUS_ALL_RX_ERR);
 
@@ -313,7 +320,6 @@ static void final_msg_set_ts(uint8 *ts_field, uint64 ts)
         ts >>= 8;
     }
 }
-#endif
 /*****************************************************************************************************************************************************
  * NOTES:
  *
