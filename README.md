@@ -131,7 +131,7 @@ The following examples are provided:
     - ex_10a_gpio
  - Example 11 - IO
     - ex_11a_button
-    - ex_11b_leds (coming)
+    - ex_11b_leds
  - Example 12 - BLE (coming)
     - ex_12a_ble 
 
