@@ -15,6 +15,7 @@
 
 #include "port.h"
 #include "deca_device_api.h"
+#include "deca_spi.h"
 
 //zephyr includes
 #include <errno.h>
@@ -89,8 +90,7 @@ int usleep(unsigned long usec)
 /* @fn    Sleep
  * @brief Sleep delay in ms using SysTick timer
  * */
-void
-Sleep(uint32_t x)
+void Sleep(uint32_t x)
 {
     k_sleep(x);
 }
@@ -335,7 +335,7 @@ void port_set_deca_isr(port_deca_isr_t deca_isr)
 	/* Decawave interrupt */
 	gpio_pin_configure(gpio_dev, PIN,
 			   GPIO_DIR_IN | GPIO_INT |  GPIO_PUD_PULL_UP | GPIO_INT_EDGE | GPIO_INT_ACTIVE_HIGH );
-	gpio_init_callback(&gpio_cb, deca_isr, BIT(PIN));
+	gpio_init_callback(&gpio_cb, (gpio_callback_handler_t)(deca_isr), BIT(PIN));
 	gpio_add_callback(gpio_dev, &gpio_cb);
 	gpio_pin_enable_callback(gpio_dev, PIN);
 }
