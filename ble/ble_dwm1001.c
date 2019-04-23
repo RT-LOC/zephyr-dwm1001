@@ -139,9 +139,14 @@ void ble_dwm1001_dps(uint8_t *tx, uint16_t len)
     dps_notify_loc_data(default_conn, tx, len);
 }
 
-void ble_dwm1001_set_devinfo(uint64_t uid, uint32_t hw)
+void ble_dwm1001_set_devinfo(ble_device_info_t *devinfo_new)
 {
-    devinfo.uid = uid;
-    devinfo.hw_ver = hw;
+    devinfo.uid = devinfo_new->uid;
+    devinfo.hw_ver = devinfo_new->hw_ver;
+    devinfo.fw1_ver = devinfo_new->fw1_ver;
+    devinfo.fw2_ver = devinfo_new->fw2_ver;
+    devinfo.fw1_crc = devinfo_new->fw1_crc;
+    devinfo.fw2_crc = devinfo_new->fw2_crc;
+    devinfo.flag = devinfo_new->flag;
 }
 /* EOF */

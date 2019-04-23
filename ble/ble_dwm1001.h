@@ -27,6 +27,7 @@
 #ifndef __BLE_DWM1001_H__
 #define __BLE_DWM1001_H__
 
+#include "dps.h"
 
 /* BLE Report */
 struct ble_rep {
@@ -45,6 +46,6 @@ typedef struct ble_reps ble_reps_t;
 
 int ble_dwm1001_enable(void);
 void ble_dwm1001_dps(uint8_t *tx, uint16_t len);
-void ble_dwm1001_set_devinfo(uint64_t uid, uint32_t hw);
+void ble_dwm1001_set_devinfo(ble_device_info_t *devinfo_new);
 
 #endif /* __BLE_DWM1001_H__ */ 
