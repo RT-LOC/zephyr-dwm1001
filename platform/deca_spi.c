@@ -69,7 +69,7 @@ int openspi()
     return 0;
 } // end openspi()
 
-int set_spi_speed_slow()
+void set_spi_speed_slow()
 {
 	spi_cfg = &spi_cfgs[0];
 	spi_cfg->operation = SPI_WORD_SET(8);
@@ -79,7 +79,7 @@ int set_spi_speed_slow()
 	memset(&rx_buf[0], 0, 255);
 }
 
-int set_spi_speed_fast()
+void set_spi_speed_fast()
 {
 	spi_cfg = &spi_cfgs[1];
 	spi_cfg->operation = SPI_WORD_SET(8);

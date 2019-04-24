@@ -38,8 +38,8 @@ int openspi(void) ;
  */
 int closespi(void) ;
 
-int set_spi_speed_slow();
-int set_spi_speed_fast();
+void set_spi_speed_slow();
+void set_spi_speed_fast();
 
 #ifdef __cplusplus
 }
