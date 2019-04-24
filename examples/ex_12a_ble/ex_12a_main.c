@@ -22,6 +22,7 @@
  *  @file   ex_12a_main.c
  *  @brief  Example of usage BLE - DPS Gatt Profile.
  *          In this example 2 (fake) distances are outputted every 300ms. 
+ *          The nodeID of this tag is 1. The 2 faked tags have nodeID 2 and nodeID3.
  *  @author RTLOC
  */
 
@@ -29,6 +30,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "deca_device_api.h"
 #include "deca_regs.h"
@@ -47,8 +49,13 @@
 #define APP_UID 0xDECA0000000000C1
 #define APP_HW  1
 
+#define MAX_DIST1       100
+#define MAX_DIST2       50
+#define PI              3.14159265359
+
 static float distance1 = 0.0f;
 static float distance2 = 3.0f;
+static float temp = 0.1f;
 
 /*! ------------------------------------------------------------------------------------------------------------------
  * @fn main()
@@ -86,25 +93,21 @@ int dw_main(void)
     while (1)
     {
         /* Increase distances */
-        distance1 += 1.0f;
-        distance2 += 2.0f;
+        temp += 0.01f;
 
-        if(distance1 > 150.0f)
-            distance1 = 1.0f;
-
-        if(distance2 > 100.0f)
-            distance2 = 3.0f;
+        distance1 = MAX_DIST1+MAX_DIST1*cos(temp*PI);
+        distance2 = MAX_DIST2+MAX_DIST2*sin(temp*PI);
 
         /* Display faked distance on console. */
         printk("dist: %3.2f, dist2: %3.2f m\n", distance1, distance2);
 
         /* Fill reports */
         ble_reps->cnt = 2;
-        ble_reps->ble_rep[0].node_id = 0x01;
+        ble_reps->ble_rep[0].node_id = 0x02;
         ble_reps->ble_rep[0].dist = distance1;
         ble_reps->ble_rep[0].tqf = 0;
 
-        ble_reps->ble_rep[1].node_id = 0x06;
+        ble_reps->ble_rep[1].node_id = 0x03;
         ble_reps->ble_rep[1].dist = distance2;
         ble_reps->ble_rep[1].tqf = 0;
 
