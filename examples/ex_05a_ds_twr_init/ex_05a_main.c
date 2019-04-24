@@ -1,5 +1,26 @@
+/**
+ * Copyright (c) 2019 - Frederic Mes, RTLOC
+ * Copyright (c) 2015 - Decawave Ltd, Dublin, Ireland.
+ * 
+ * This file is part of Zephyr-DWM1001.
+ *
+ *   Zephyr-DWM1001 is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Zephyr-DWM1001 is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Zephyr-DWM1001.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ */
+
 /*! ----------------------------------------------------------------------------
- *  @file    main.c
+ *  @file    ex_05a_main.c
  *  @brief   Double-sided two-way ranging (DS TWR) initiator example code
  *
  *           This is a simple code example which acts as the initiator in a DS TWR distance measurement exchange. This application sends a "poll"
@@ -9,15 +30,12 @@
  *           time-stamp for the final message itself. The companion "DS TWR responder" example application works out the time-of-flight over-the-air
  *           and, thus, the estimated distance between the two devices.
  *
- * @attention
- *
- * Copyright 2015 (c) Decawave Ltd, Dublin, Ireland.
- * Copyright 2019 (c) Frederic Mes, RTLOC.
  *
  * All rights reserved.
  *
- * @author Decawave
+ * @author Decawave, RTLOC
  */
+
 #include <string.h>
 
 #include "deca_device_api.h"
@@ -28,7 +46,8 @@
 /* Example application name and version to display on console. */
 #define APP_HEADER "\nDWM1001 & Zephyr\n"
 #define APP_NAME "Example 5a - DS TWR INIT\n"
-#define APP_VERSION "Version - 1.3\n"
+#define APP_VERSION "Version - 1.4.0\n"
+#define APP_VERSION_NUM 0x010400
 #define APP_LINE "=================\n"
 
 /* Inter-ranging delay period, in milliseconds. */
