@@ -91,49 +91,50 @@ nrfjprog --family nrf52 --reset
 ```
 
 ## Examples
-The following examples are provided:
+The following examples are provided (checkbox checked if all functionality of the example is fully functional):
  - Example 1 - transmission
-    - ex_01a_simple_tx
-    - ex_01b_tx_sleep
-    - ex_01c_tx_sleep_auto
-    - ex_01d_tx_timed_sleep
-    - ex_01e_tx_with_cca
+  - [ ] ex_01a_simple_tx
+  - [ ] ex_01b_tx_sleep
+  - [ ] ex_01c_tx_sleep_auto
+  - [ ] ex_01d_tx_timed_sleep
+  - [ ] ex_01e_tx_with_cca
  - Example 2 - reception
-    - ex_02a_simple_rx
-    - ex_02b_rx_preamble_64
-    - ex_02c_rx_diagnostics
-    - ex_02d_rx_sniff
-    - ex_02e_rx_dbl_buff
+  - [ ] ex_02a_simple_rx
+  - [ ] ex_02b_rx_preamble_64
+  - [ ] ex_02c_rx_diagnostics
+  - [ ] ex_02d_rx_sniff
+  - [ ] ex_02e_rx_dbl_buff
  - Example 3 - transmission + wait for response
-    - ex_03a_tx_wait_resp
-    - ex_03b_rx_send_resp
-    - ex_03c_tx_wait_resp_leds
-    - ex_03d_tx_wait_resp_interrupts
+  - [ ] ex_03a_tx_wait_resp
+  - [ ] ex_03b_rx_send_resp
+  - [ ] ex_03c_tx_wait_resp_leds
+  - [ ] ex_03d_tx_wait_resp_interrupts
  - Example 4 - continuous transmission
-    - ex_04a_cont_wave
-    - ex_04b_cont_frame
+  - [ ] ex_04a_cont_wave
+  - [ ] ex_04b_cont_frame
  - Example 5 - double-sided two-way ranging
-    - ex_05a_ds_twr_init
-    - ex_05b_ds_twr_resp
+  - [ ] ex_05a_ds_twr_init
+  - [ ] ex_05b_ds_twr_resp
+  - [ ] ex_05c_ds_twr_resp_ble
  - Example 6 - single-sided two-way ranging
-    - ex_06a_ss_twr_init
-    - ex_06b_ss_twr_resp
+  - [ ] ex_06a_ss_twr_init
+  - [ ] ex_06b_ss_twr_resp
  - Example 7 - acknownledgements
-    - ex_07a_ack_data_tx
-    - ex_07b_ack_data_rx
+  - [ ] ex_07a_ack_data_tx
+  - [ ] ex_07b_ack_data_rx
  - Example 8 - low power listen
-    - ex_08a_low_power_listen_rx
-    - ex_08b_low_power_listen_tx
+  - [ ] ex_08a_low_power_listen_rx
+  - [ ] ex_08b_low_power_listen_tx
  - Example 9 - bandwidth power
-    - ex_09a_bandwidth_power_ref_meas
-    - ex_09b_bandwidth_power_comp
+  - [ ] ex_09a_bandwidth_power_ref_meas
+  - [ ] ex_09b_bandwidth_power_comp
  - Example 10 - GPIO
-    - ex_10a_gpio
+  - [ ] ex_10a_gpio
  - Example 11 - IO
-    - ex_11a_button
-    - ex_11b_leds
+  - [ ] ex_11a_button
+  - [ ] ex_11b_leds
  - Example 12 - BLE (coming)
-    - ex_12a_ble 
+  - [ ] ex_12a_ble 
 
 ## What's next?
 * Examples completion
