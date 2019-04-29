@@ -133,7 +133,7 @@ The following examples are provided (checkbox checked if all functionality of th
  - Example 11 - IO
   - [ ] ex_11a_button
   - [ ] ex_11b_leds
- - Example 12 - BLE (coming)
+ - Example 12 - BLE
   - [ ] ex_12a_ble 
 
 ## What's next?
